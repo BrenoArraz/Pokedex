@@ -12,7 +12,6 @@ import { Footer } from '../footer/footer'
 export const Section = () => {
   
   const [{ theme }] = useContext(ThemeContext)
-  const [notFound, setNotFound ] = useState(false)
   const [count, setCount] = useState(10)
   const [pokedex, setPokedex] = useState([])
 
@@ -32,18 +31,16 @@ export const Section = () => {
     if(!pokemon){
       return createPokemonsList(count)
     } 
-      setNotFound(false)
+      
       
     const result = await getPokemons(pokemon)
-    if(!result.name){
-      setNotFound(true)
-    } else {
+    if(result.name){
       setPokedex([result])
     }
     
   }
 
-
+console.log(pokedex)
   return (
     <>
     
@@ -51,16 +48,23 @@ export const Section = () => {
       <Main theme={ theme }>
       <Header />
       <Searchbar onSearch={onSearchHandler}/>
-
+      {pokedex ? (
         <Pokedex>
           <DisplayGrid >
             {pokedex.map((pokemon, index) => (
-              <Link className='card-flex' to={`/pokemon/${pokemon.name}`} key={index}>
+              <Link  to={`/pokemon/${pokemon.name}`} key={index}>
                 <CardPokemon name={pokemon.name} theme={ theme }/>
               </Link>
             ))}
           </DisplayGrid>
         </Pokedex>
+
+      ) 
+      :(
+        <div>
+          <p>no</p>
+        </div>
+      )}
         <BtnLoad>
           <BtnLoadButton
             onClick={() => setCount(count + 10)}>
