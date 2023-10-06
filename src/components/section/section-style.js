@@ -6,6 +6,7 @@ background-size: cover;
 background-attachment: fixed;
 background-image: ${props => props.theme.backgroundImage};
 position: relative;
+min-height: 100vh;
 `
 
 export const Pokedex = styled.div`
